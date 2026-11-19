@@ -331,7 +331,7 @@
             "The 7th of {c:Dm7}, {n:C5}, drops a half step to the 3rd of {c:G7}, {n:B4}. The 7th of {c:G7}, {n:F4}, drops a half step to the 3rd of {c:Cmaj7}, {n:E4}.",
             "This half-step motion is the secret of smooth changes."
           ],
-          "example": { "columns": [{ "notes": ["C5"], "chord": "Dm7" }, { "notes": ["B4"], "chord": "G7" }, { "notes": ["B4"], "chord": "Cmaj7" }] }
+          "example": { "columns": [{ "notes": ["C5"], "chord": "Dm7" }, { "notes": ["F4", "B4"], "chord": "G7" }, { "notes": ["E4"], "chord": "Cmaj7" }] }
         },
         {
           "title": "The 3rd stays and becomes the next 7th",
@@ -1774,7 +1774,7 @@
             "In the key of {n:C4}, notes are flipped around the axis exactly halfway between {n:C4} and {n:G4} (between {n:Eb4} and {n:E4}).",
             "{n:C4}↔{n:G4}, {n:D4}↔{n:F4}, {n:E4}↔{n:Eb4}, {n:A4}↔{n:Bb4}, {n:B4}↔{n:Ab4}. Bright notes swap for dark ones."
           ],
-          "example": { "seq": ["C4", "G4", "D4", "F4", "E4", "Eb4", "B4", "Ab4"] }
+          "example": { "seq": ["C4", "G4", "D4", "F4", "E4", "Eb4", "A4", "Bb4", "B4", "Ab4"] }
         },
         {
           "title": "V7 becomes IIm7♭5",

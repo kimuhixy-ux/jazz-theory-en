@@ -459,11 +459,13 @@ const advancedGenerators = {
     const pair = (codes) => codes.map((x) => n(addInterval(dominant.root, x))).join(', ');
     const natural = pair(['M9', 'M13']);
     const altered = pair(['m9', 'm13']);
+    const tensions = (isMinor ? ['m9', 'm13'] : ['M9', 'M13']).map((x) => addInterval(dominant.root, x));
     return makeQuestion({
       prompt: `${c(dominant)} → ${c(tonic)}. Which tensions fit ${c(dominant)} naturally?`,
       correct: isMinor ? altered : natural, wrong: [isMinor ? natural : altered],
       explain: isMinor ? `Resolving to minor, use ♭9th and ♭13th (${altered}). They match the notes of the key.` : `Resolving to major, use 9th and 13th (${natural}). They match the notes of the key.`,
-      columns: [chordColumn(dominant), chordColumn(tonic)]
+      // 解説で名前を出すテンションを譜面にも載せ、文と楽譜を一致させる
+      columns: [{ notes: [...chordNotes(dominant), ...tensions], chord: dominant }, chordColumn(tonic)]
     });
   },
   coltrane({ keys }) {
