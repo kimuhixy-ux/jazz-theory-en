@@ -228,8 +228,11 @@ function renderResult(unit) {
   const quiz = state.quiz;
   const result = el('div', 'result');
   result.append(el('p', 'result-score', `${quiz.score} of ${quiz.questions.length} correct`));
-  result.append(el('p', '', quiz.score >= 8 ? 'Well done. On to the next unit.' : 'Review the Read section, then try again.'));
-  result.append(button('primary-button', 'Try again', () => { startQuiz(unit); render(false); }));
+  // 7点以下は読み直す方へ、次の一歩を1つに絞ってすすめる
+  const passed = quiz.score >= 8;
+  result.append(el('p', '', passed ? 'Well done. On to the next unit.' : 'Review the Read section, then try again.'));
+  if (!passed) result.append(button('primary-button', 'Review the reading', () => { location.hash = `#/${unit.id}`; }));
+  result.append(button(passed ? 'primary-button' : 'secondary-button', 'Try again', () => { startQuiz(unit); render(false); }));
   result.append(button('secondary-button', 'Back to units', () => { location.hash = ''; }));
   view.append(result);
 }
