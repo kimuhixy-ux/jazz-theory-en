@@ -1,0 +1,386 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f3f0e8;
+  --surface: #fffdf7;
+  --ink: #1d2230;
+  --muted: #5f6577;
+  --line: #d6d0c2;
+  --accent: #1f4e79;
+  --accent-ink: #ffffff;
+  --brass: #a8780f;
+  --good: #2e7d4f;
+  --bad: #b3412f;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141822;
+    --surface: #1f2431;
+    --ink: #e8e6df;
+    --muted: #9aa0b0;
+    --line: #343a4a;
+    --accent: #6fa3d6;
+    --accent-ink: #0f1520;
+    --brass: #e0b04a;
+    --good: #5cc08a;
+    --bad: #e8826f;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 720px;
+  padding: 0 max(16px, env(safe-area-inset-right)) calc(32px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', sans-serif;
+  line-height: 1.7;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+.link-button {
+  font: inherit;
+  min-height: 44px;
+  border-radius: 10px;
+  cursor: pointer;
+  /* ダブルタップでの拡大を止めて、連続タップを素直に受け付ける */
+  touch-action: manipulation;
+}
+
+.app-header {
+  padding-top: calc(10px + env(safe-area-inset-top));
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.notation-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 12px;
+}
+
+.notation-caption {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.segments {
+  display: flex;
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.segment {
+  flex: 1;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+
+.segment + .segment {
+  border-left: 1px solid var(--line);
+}
+
+.segment[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.lead {
+  color: var(--muted);
+  margin: 4px 0 12px;
+}
+
+.section-title {
+  font-size: 1rem;
+  color: var(--muted);
+  margin: 20px 0 8px;
+}
+
+.unit-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.unit-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+}
+
+.unit-number {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--brass);
+  color: var(--surface);
+  font-weight: 700;
+}
+
+.unit-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.unit-title {
+  font-weight: 600;
+}
+
+.unit-summary {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.unit-score {
+  flex: none;
+  font-size: 0.85rem;
+  color: var(--good);
+  font-weight: 600;
+}
+
+.unit-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.unit-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.back-button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.back-button,
+.secondary-button {
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0 14px;
+}
+
+.tab {
+  flex: 1;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.tab[aria-pressed='true'] {
+  border-color: var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
+  font-weight: 600;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+
+.card h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  color: var(--accent);
+}
+
+.card p {
+  margin: 6px 0;
+}
+
+.pitch {
+  font-weight: 700;
+  color: var(--brass);
+}
+
+.note {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.example {
+  margin: 8px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.staff {
+  width: 100%;
+  height: auto;
+  color: var(--ink);
+}
+
+.staff-line {
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: 0.75;
+}
+
+.notehead {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+
+.clef {
+  fill: currentColor;
+  font-size: 80px;
+  font-family: 'Apple Symbols', 'Noto Music', 'Segoe UI Symbol', serif;
+}
+
+.accidental {
+  fill: currentColor;
+  font-size: 15px;
+  text-anchor: end;
+}
+
+.staff-label {
+  fill: var(--brass);
+  font-size: 13px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.play-button {
+  padding: 0 14px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+}
+
+.link-button,
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 8px;
+  padding: 0 14px;
+  border: 0;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.quiz-progress {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.prompt {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 6px 0 10px;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.choice {
+  padding: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.choice:disabled {
+  opacity: 0.6;
+}
+
+.choice.is-answer {
+  opacity: 1;
+  border: 2px solid var(--good);
+}
+
+.choice.is-chosen {
+  opacity: 1;
+  border: 2px solid var(--bad);
+}
+
+.feedback {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.verdict {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.is-correct .verdict {
+  color: var(--good);
+}
+
+.is-wrong .verdict {
+  color: var(--bad);
+}
+
+.result {
+  text-align: center;
+}
+
+.result-score {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 16px 0 4px;
+}
+
+.result .secondary-button {
+  width: 100%;
+  margin-top: 8px;
+}
+

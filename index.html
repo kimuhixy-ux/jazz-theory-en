@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3f0e8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141822" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Jazz Theory">
+  <meta name="description" content="Learn jazz chord theory from the basics: read, listen, and answer.">
+  <title>Jazz Theory Steps</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>Jazz Theory Steps</h1>
+  </header>
+  <div class="notation-row">
+    <span class="notation-caption">Notation</span>
+    <div id="notation-bar" class="segments" role="group" aria-label="Switch notation"></div>
+  </div>
+  <main id="view"></main>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
