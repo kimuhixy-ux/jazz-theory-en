@@ -1,4 +1,4 @@
-import { NOTATIONS, parseNote, parseChord, noteName, chordName, chordNotes, toWritten } from './theory.js';
+import { NOTATIONS, parseNote, parseChord, noteName, chordName, chordNotes, toWritten, transpose, placeRoot } from './theory.js';
 import { drawStaff } from './staff.js';
 import { unlockAudio, playColumns } from './audio.js';
 import { buildQuiz } from './quiz.js';
@@ -98,21 +98,87 @@ function arpeggioChords(columns) {
   return chords;
 }
 
+const KEY_COUNT = 12;
+const FOURTH_SEMITONES = 5;
+// 画面を描き直しても（記譜の切り替えなど）、譜例ごとに選んだキーを覚えておく
+const arpeggioKeys = new Map();
+
+// ダブル♯♭は避け、C♭・F♭・E♯・B♯も読みにくいので同じ高さの別の綴りより不利にする
+function spellingCost(note) {
+  if (Math.abs(note.acc) >= 2) return 100;
+  const odd = (note.acc === -1 && (note.letter === 0 || note.letter === 3)) || (note.acc === 1 && (note.letter === 2 || note.letter === 6));
+  return Math.abs(note.acc) + (odd ? 2 : 0);
+}
+
+// 表示中の記譜で♯♭の付き方がいちばん読みやすくなる文字の進み方を選ぶ
+function bestSpelling(chords, semitones, notation) {
+  let best = null;
+  // 文字を7つ進める（＝同じ文字で1オクターブ上）まで試すと、D→D♭のような綴りも候補に入る
+  for (let letters = 0; letters <= 7; letters += 1) {
+    const moved = chords.map((chord) => ({ ...chord, root: placeRoot(transpose(chord.root, letters, semitones)) }));
+    const cost = moved.flatMap(chordNotes).reduce((sum, note) => sum + spellingCost(toWritten(note, notation)), 0);
+    if (!best || cost < best.cost) best = { moved, cost };
+  }
+  return best.moved;
+}
+
+// 4度ずつ回したkeyIndex番目のキーへ移す。進行全体で綴りをそろえ、それでもダブル♯♭が残るコード（dim7など）だけ個別に綴り直す
+function transposeChords(chords, keyIndex, notation) {
+  if (keyIndex === 0) return chords;
+  const semitones = (keyIndex * FOURTH_SEMITONES) % KEY_COUNT;
+  return bestSpelling(chords, semitones, notation).map((chord, i) => {
+    const hasDouble = chordNotes(chord).some((note) => spellingCost(toWritten(note, notation)) >= 100);
+    return hasDouble ? bestSpelling([chords[i]], semitones, notation)[0] : chord;
+  });
+}
+
+// 7(♯5)はキーによってどう綴ってもダブル♯♭が出るので、吹く譜面では同じ高さの隣の文字で書く
+function readable(note) {
+  if (note.acc >= 2) return transpose(note, 1, 0);
+  if (note.acc <= -2) return transpose(note, -1, 0);
+  return note;
+}
+
 // 1音ずつの列は狭くてよいので、2コードずつ1段にして小さな画面でも音符が小さくなりすぎないようにする
-function arpeggioFigure(columns, notation) {
-  const chords = arpeggioChords(columns);
-  if (chords.length === 0) return null;
-  const figure = el('figure', 'example');
-  figure.append(el('figcaption', 'note', 'Arpeggio (chord tones one at a time, from the bottom)'));
+function arpeggioStaves(chords, notation) {
+  const staves = [];
   for (let i = 0; i < chords.length; i += ARPEGGIO_CHORDS_PER_ROW) {
     const row = chords.slice(i, i + ARPEGGIO_CHORDS_PER_ROW).flatMap((chord) => chordNotes(chord).map((note, k) => ({
-      notes: [toWritten(note, notation)],
+      notes: [readable(toWritten(note, notation))],
       label: k === 0 ? chordName(chord, notation) : ''
     })));
-    figure.append(drawStaff(row, ARPEGGIO_COLUMN_WIDTH));
+    staves.push(drawStaff(row, ARPEGGIO_COLUMN_WIDTH));
   }
-  const sequence = chords.flatMap((chord) => chordNotes(chord).map((note) => ({ notes: [note], chord: null })));
-  figure.append(button('play-button', '▶ Play arpeggio', () => playColumns(sequence)));
+  return staves;
+}
+
+function keyControls(id, redraw) {
+  const keyIndex = arpeggioKeys.get(id) ?? 0;
+  const step = (delta) => () => {
+    arpeggioKeys.set(id, (keyIndex + delta + KEY_COUNT) % KEY_COUNT);
+    redraw();
+  };
+  const row = el('div', 'arpeggio-controls');
+  row.append(button('play-button', '◀ Prev key', step(-1)), el('span', 'key-label', `Key ${keyIndex + 1} / ${KEY_COUNT}`), button('play-button', 'Next key ▶', step(1)));
+  return row;
+}
+
+function arpeggioFigure(columns, notation) {
+  const original = arpeggioChords(columns);
+  if (original.length === 0) return null;
+  const id = original.map((chord) => chordName(chord, 'concert')).join(' ');
+  const figure = el('figure', 'example');
+  const redraw = () => {
+    const chords = transposeChords(original, arpeggioKeys.get(id) ?? 0, notation);
+    const sequence = chords.flatMap((chord) => chordNotes(chord).map((note) => ({ notes: [note], chord: null })));
+    figure.replaceChildren(
+      el('figcaption', 'note', 'Arpeggio (chord tones one at a time, from the bottom)'),
+      ...arpeggioStaves(chords, notation),
+      keyControls(id, redraw),
+      button('play-button', '▶ Play arpeggio', () => playColumns(sequence))
+    );
+  };
+  redraw();
   return figure;
 }
 

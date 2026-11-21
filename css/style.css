@@ -291,6 +291,19 @@ button,
   color: var(--accent);
 }
 
+.arpeggio-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.key-label {
+  min-width: 6em;
+  text-align: center;
+  font-weight: 600;
+}
+
 .link-button,
 .primary-button {
   display: inline-flex;
