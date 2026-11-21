@@ -515,7 +515,8 @@
             "Bars 1–4: {c:F7} | {c:Bb7} | {c:F7} | {c:F7}",
             "Bars 5–8: {c:Bb7} | {c:Bb7} | {c:F7} | {c:D7}",
             "Bars 9–12: {c:Gm7} | {c:C7} | {c:F7} {c:D7} | {c:Gm7} {c:C7}",
-            "{c:D7} in bar 8 is a secondary dominant heading to {c:Gm7}. Bars 9–10 are a II–V."
+            "{c:D7} in bar 8 is a secondary dominant heading to {c:Gm7}. Bars 9–10 are a II–V.",
+            "The example shows the four chords of bars 11–12 ({c:F7} → {c:D7} → {c:Gm7} → {c:C7}). They move I7 → VI7 → IIm7 → V7, and the last {c:C7} leads back to {c:F7} in bar 1. A passage like this that takes you back to the top is called a turnaround."
           ],
           "example": { "chords": ["F7", "D7", "Gm7", "C7"] }
         },
