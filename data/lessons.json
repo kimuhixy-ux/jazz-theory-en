@@ -590,7 +590,9 @@
           "title": "Really a 7(♭9) without its root",
           "text": [
             "Take the root {n:G3} out of {c:G7b9} and the remaining {n:B3}, {n:D4}, {n:F4}, {n:Ab4} are the same notes as {c:Bdim7}.",
-            "That is why a dim7 can stand in for a dominant and pull toward the next chord."
+            "That is why a dim7 can stand in for a dominant and pull toward the next chord.",
+            "In {c:Bdim7}, {n:B3} is the 3rd of {c:G7}, the note just below the tonic {n:C4}, so it wants to rise a half step to {n:C4}; {n:F4} wants to fall a half step to {n:E4}, and {n:Ab4} to {n:G4}. That is why it moves to {c:Cmaj7}, a half step above.",
+            "Moving to {c:Bbmaj7}, a half step below, would push {n:B3}, which wants to rise, down to {n:Bb3}, while {n:F4} just stays put. The tritone between {n:B3} and {n:F4} never resolves, so there is no sense of arrival. A dim7 can also move down a half step, but then it is a passing chord connecting the bass by half steps, not a resolution."
           ],
           "example": { "chords": ["G7b9", "Bdim7", "Cmaj7"] }
         },
