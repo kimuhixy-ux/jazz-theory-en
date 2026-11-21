@@ -289,7 +289,9 @@
           "title": "Tension, then release",
           "text": [
             "V7 is a tense chord, and moving to Imaj7 feels like landing. This is called resolution.",
-            "IIm7 is the run-up to V7."
+            "IIm7 is the run-up to V7.",
+            "Why does it feel like landing? The 3rd of {c:G7}, {n:B4}, wants to rise a half step to {n:C5}, and the 7th, {n:F4}, wants to fall a half step to {n:E4}. These two notes form a tritone (six half steps, a restless interval), and moving to {c:Cmaj7} releases that tension.",
+            "{c:Dm7} → {c:G7} is also a root falling a perfect fifth, repeating the shape of {c:G7} → {c:Cmaj7} one step earlier. That is what the run-up really is."
           ],
           "example": { "chords": ["G7", "Cmaj7"] }
         },
@@ -438,7 +440,8 @@
           "text": [
             "Like {c:G7} → {c:Cmaj7}, a 7 chord is strongly pulled toward the chord a perfect 5th below.",
             "Put a 7 chord a perfect 5th above any other chord in the key and you get the same pull. This is called a secondary dominant.",
-            "In the example, {c:A7} is the 7 chord a perfect fifth above {c:Dm7} and pulls toward it; then the usual {c:G7} → {c:Cmaj7} follows."
+            "In the example, {c:A7} is the 7 chord a perfect fifth above {c:Dm7} and pulls toward it; then the usual {c:G7} → {c:Cmaj7} follows.",
+            "Why the pull? The 3rd of {c:A7}, {n:C#4}, sits a half step below {n:D4}, the root of {c:Dm7}, and wants to rise to it. With the key's own {c:Am7}, the 3rd is {n:C4}, a whole step away from {n:D4}, so that pull does not appear."
           ],
           "example": { "chords": ["A7", "Dm7", "G7", "Cmaj7"] }
         },
@@ -481,7 +484,8 @@
           "title": "A partner with the same tritone",
           "text": [
             "The 3rd of {c:Db7} is {n:F4} and its 7th is {n:Cb5} (the same pitch as {n:B4}). It has the same tritone as {c:G7}, with the 3rd and 7th swapped.",
-            "So {c:Db7} can stand in for {c:G7}. This is called a tritone substitution (tritone sub)."
+            "So {c:Db7} can stand in for {c:G7}. This is called a tritone substitution (tritone sub).",
+            "Going from {c:Db7} to {c:Cmaj7}, {n:F4} falls a half step to {n:E4} and {n:Cb5} rises a half step to {n:C5}. It is exactly the same motion as {c:G7} → {c:Cmaj7}, so it lands the same way."
           ],
           "example": { "columns": [{ "notes": ["F4", "B4"], "chord": "G7" }, { "notes": ["F4", "Cb5"], "chord": "Db7" }] }
         },
@@ -600,7 +604,8 @@
           "title": "Passing diminished",
           "text": [
             "{c:Cmaj7} → {c:C#dim7} → {c:Dm7}. The bass climbs {n:C4}→{n:C#4}→{n:D4} by half steps, smoothly linking the chords.",
-            "{c:C#dim7} is also {c:A7b9}, which leads to {c:Dm7}, with the root left out."
+            "{c:C#dim7} is also {c:A7b9}, which leads to {c:Dm7}, with the root left out.",
+            "{c:C#dim7} is {n:C#4}, {n:E4}, {n:G4}, {n:Bb4}. {n:C#4} sits a half step below {n:D4} and wants to rise; {n:Bb4} falls a half step to {n:A4} and {n:G4} a whole step to {n:F4}, landing on {c:Dm7}. Again, the target is the chord a half step above the root."
           ],
           "example": { "chords": ["Cmaj7", "C#dim7", "Dm7"] }
         }
@@ -637,7 +642,8 @@
           "title": "The backdoor II–V",
           "text": [
             "{c:Fm7} → {c:Bb7} → {c:Cmaj7} is called the backdoor, because it comes home through the back door.",
-            "Instead of {c:G7}, it resolves to {c:Cmaj7} from {c:Bb7}, a whole step below."
+            "Instead of {c:G7}, it resolves to {c:Cmaj7} from {c:Bb7}, a whole step below.",
+            "Why can {c:Bb7} land on {c:Cmaj7}? In {c:Bb7}, {n:Ab4} falls a half step to {n:G4}, {n:F4} a half step to {n:E4}, and {n:D4} a whole step to {n:C4}, all arriving on notes of {c:Cmaj7}. Unlike {c:G7}, there is no {n:B3} rising by a half step, so it lands softly rather than with a strong pull."
           ],
           "example": { "chords": ["Fm7", "Bb7", "Cmaj7"] }
         }
@@ -703,7 +709,8 @@
           "text": [
             "In {c:G7} → {c:Cm7}, resolving to minor, the ♭9th and ♭13th ({n:Ab4}, {n:Eb5}) match the key and sound natural.",
             "In {c:G7} → {c:Cmaj7}, resolving to major, the 9th and 13th ({n:A4}, {n:E5}) sound natural. Using the ♭9th on purpose creates strong tension.",
-            "The example shows the minor case: the ♭9th {n:Ab4} and ♭13th {n:Eb5} over the 3rd {n:B3} and 7th {n:F4} of {c:G7}, moving to {c:Cm7}."
+            "The example shows the minor case: the ♭9th {n:Ab4} and ♭13th {n:Eb5} over the 3rd {n:B3} and 7th {n:F4} of {c:G7}, moving to {c:Cm7}.",
+            "The ♭9th of {c:G7}, {n:Ab4}, falls a half step to {n:G4} (the 5th of {c:Cm7}), and the ♭13th, {n:Eb5}, stays put as the 3rd of {c:Cm7}. Both are notes of the key of {n:C4} minor, so they preview the sound of where you are going."
           ],
           "example": { "columns": [{ "notes": ["B3", "F4", "Ab4", "Eb5"], "chord": "G7" }, { "chord": "Cm7" }] }
         },
@@ -1112,7 +1119,8 @@
           "text": [
             "Resolving to major, start with Mixolydian. Resolving to minor, use Altered or half-whole diminished, which contain the ♭9th and ♭13th.",
             "For 7 chords that don't resolve (tritone subs or the IV7 of a blues), Lydian Dominant suits well.",
-            "The first half of the example resolves to major, {c:C7} → {c:Fmaj7} (Mixolydian); the second half resolves to minor, {c:C7} → {c:Fm7} (altered or half-whole)."
+            "The first half of the example resolves to major, {c:C7} → {c:Fmaj7} (Mixolydian); the second half resolves to minor, {c:C7} → {c:Fm7} (altered or half-whole).",
+            "When resolving to minor you choose the ♭9th and ♭13th because those notes of {c:C7}, {n:Db5} and {n:Ab5}, belong to the key of the destination, {n:F4} minor. {n:Db5} falls a half step to {n:C5} (the 5th of {c:Fm7}), and {n:Ab5} stays as the 3rd of {c:Fm7}."
           ],
           "example": { "chords": ["C7", "Fmaj7", "C7", "Fm7"] }
         },
@@ -1336,7 +1344,8 @@
           "text": [
             "In natural minor, the chord on the 5th note is {c:Gm7}. Raising the 7th to {n:B4} turns it into {c:G7}, which resolves strongly to {c:Cm7}.",
             "The minor II–V uses {c:G7b9} because its ♭9th, {n:Ab4}, is also in this scale.",
-            "The example ends on {c:CmMaj7} rather than {c:Cm7} because the 7th of this scale is {n:B4}, so stacking on {n:C4} gives a major 7th."
+            "The example ends on {c:CmMaj7} rather than {c:Cm7} because the 7th of this scale is {n:B4}, so stacking on {n:C4} gives a major 7th.",
+            "In natural minor, {n:Bb4} is a whole step from the tonic {n:C5}, so it pulls only weakly. Raised a half step to {n:B4}, it sits just below the tonic and wants to rise to {n:C5}, giving a strong resolution."
           ],
           "example": { "chords": ["Dm7b5", "G7b9", "CmMaj7"] }
         },
@@ -1816,7 +1825,8 @@
           "title": "V7 becomes IIm7♭5",
           "text": [
             "Mirror the four notes of {c:G7} and, reordered from the bottom, they become {c:Dm7b5}.",
-            "It belongs to the subdominant minor family, so it can resolve to {c:Cmaj7} in place of {c:G7}."
+            "It belongs to the subdominant minor family, so it can resolve to {c:Cmaj7} in place of {c:G7}.",
+            "In {c:Dm7b5}, {n:Ab4} falls a half step to {n:G4}, {n:F4} a half step to {n:E4}, and {n:D4} steps down to {n:C4}. Notes falling by half steps land on notes of {c:Cmaj7}, so it sounds resolved even without {c:G7}."
           ],
           "example": { "chords": ["G7", "Dm7b5", "Cmaj7"] }
         },
