@@ -62,14 +62,15 @@ function drawColumn(svg, column, x, yOf) {
 }
 
 // columns: [{ notes: [記譜音の音], label: '表示するコード名' }]
-export function drawStaff(columns) {
+// fixedColumnWidth: 1音ずつ並べる譜面では、コード名に合わせて列を広げず指定の幅にする
+export function drawStaff(columns, fixedColumnWidth) {
   const indices = columns.flatMap((column) => column.notes.map(diatonicIndex));
   const high = Math.max(TOP_LINE + 3, ...indices);
   const low = Math.min(BOTTOM_LINE - 4, ...indices);
   const yOf = (d) => LABEL_HEIGHT + 6 + (high - d) * STEP;
   // 「G7(♭9)」のような長いコード名どうしが重ならないよう、列の幅を名前に合わせて広げる
   const longest = Math.max(0, ...columns.map((column) => (column.label || '').length));
-  const columnWidth = Math.max(COLUMN_WIDTH, longest * LABEL_CHAR_WIDTH + 8);
+  const columnWidth = fixedColumnWidth ?? Math.max(COLUMN_WIDTH, longest * LABEL_CHAR_WIDTH + 8);
   const width = CLEF_WIDTH + columns.length * columnWidth + 6;
   const height = yOf(low) + 10;
   const description = columns.map((column) => column.label || column.notes.map(noteName).join(' ')).join(', ');

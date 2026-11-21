@@ -83,6 +83,39 @@ function staffFigure(columns, notation = state.notation) {
   return figure;
 }
 
+const ARPEGGIO_COLUMN_WIDTH = 32;
+const ARPEGGIO_CHORDS_PER_ROW = 2;
+
+// 同じコードが続く譜例（ヴォイシングの比べ方など）では、アルペジオを1回にまとめる
+function arpeggioChords(columns) {
+  const chords = [];
+  for (const column of columns) {
+    if (!column.chord) continue;
+    const previous = chords[chords.length - 1];
+    if (previous && chordName(previous, 'concert') === chordName(column.chord, 'concert')) continue;
+    chords.push(column.chord);
+  }
+  return chords;
+}
+
+// 1音ずつの列は狭くてよいので、2コードずつ1段にして小さな画面でも音符が小さくなりすぎないようにする
+function arpeggioFigure(columns, notation) {
+  const chords = arpeggioChords(columns);
+  if (chords.length === 0) return null;
+  const figure = el('figure', 'example');
+  figure.append(el('figcaption', 'note', 'Arpeggio (chord tones one at a time, from the bottom)'));
+  for (let i = 0; i < chords.length; i += ARPEGGIO_CHORDS_PER_ROW) {
+    const row = chords.slice(i, i + ARPEGGIO_CHORDS_PER_ROW).flatMap((chord) => chordNotes(chord).map((note, k) => ({
+      notes: [toWritten(note, notation)],
+      label: k === 0 ? chordName(chord, notation) : ''
+    })));
+    figure.append(drawStaff(row, ARPEGGIO_COLUMN_WIDTH));
+  }
+  const sequence = chords.flatMap((chord) => chordNotes(chord).map((note) => ({ notes: [note], chord: null })));
+  figure.append(button('play-button', '▶ Play arpeggio', () => playColumns(sequence)));
+  return figure;
+}
+
 function renderNotationBar() {
   const bar = document.getElementById('notation-bar');
   bar.replaceChildren();
@@ -130,8 +163,12 @@ function renderCard(card) {
     article.append(p);
   }
   if (card.example) {
-    article.append(staffFigure(exampleColumns(card.example), card.example.concert ? 'concert' : state.notation));
+    const columns = exampleColumns(card.example);
+    const notation = card.example.concert ? 'concert' : state.notation;
+    article.append(staffFigure(columns, notation));
     if (card.example.concert) article.append(el('p', 'note', '* This example is always shown in concert pitch.'));
+    const arpeggio = arpeggioFigure(columns, notation);
+    if (arpeggio) article.append(arpeggio);
   }
   if (card.link) {
     const link = el('a', 'link-button', card.link.label);
