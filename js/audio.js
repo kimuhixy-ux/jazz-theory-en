@@ -2,6 +2,7 @@ import { noteToMidi } from './theory.js';
 
 let ctx = null;
 let master = null;
+let loopTimer = null;
 
 // iPhoneでは利用者のタップの中でしか音を鳴らし始められないので、タップのたびに呼ぶ
 export function unlockAudio() {
@@ -62,6 +63,27 @@ function playColumn({ notes, chord }, at) {
   const blockAt = at + midis.length * 0.4 + 0.1;
   midis.forEach((midi) => playMidi(midi, blockAt, 1.4, 0.16));
   return blockAt - at + 1.4;
+}
+
+export function stopLine() {
+  clearTimeout(loopTimer);
+  loopTimer = null;
+  if (ctx) newMaster();
+}
+
+// 1音ずつ一定の速さで鳴らす。繰り返すときは1回分が終わる少し前に次の回を予約し、つなぎ目で間が空かないようにする
+export function playLine(notes, secondsPerNote, loop, onEnd) {
+  if (!ctx) return;
+  stopLine();
+  const midis = notes.map(noteToMidi);
+  let at = ctx.currentTime + 0.05;
+  const schedule = () => {
+    midis.forEach((midi, i) => playMidi(midi, at - ctx.currentTime + i * secondsPerNote, secondsPerNote * 1.5));
+    at += midis.length * secondsPerNote;
+    const untilEnd = (at - ctx.currentTime) * 1000;
+    loopTimer = loop ? setTimeout(schedule, Math.max(0, untilEnd - 300)) : setTimeout(onEnd, untilEnd);
+  };
+  schedule();
 }
 
 export function playColumns(columns) {

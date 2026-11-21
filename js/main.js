@@ -1,6 +1,6 @@
 import { NOTATIONS, parseNote, parseChord, noteName, chordName, chordNotes, toWritten, transpose, placeRoot, addInterval, noteToMidi } from './theory.js';
 import { drawStaff } from './staff.js';
-import { unlockAudio, playColumns } from './audio.js';
+import { unlockAudio, playColumns, playLine, stopLine } from './audio.js';
 import { buildQuiz } from './quiz.js';
 
 // 日本語版と同じドメインで公開するため、進み具合が混ざらないよう別の名前で保存する
@@ -8,7 +8,7 @@ const STORAGE_KEY = 'jazz-theory-en';
 const QUIZ_LENGTH = 10;
 const TOKEN = /\{([nc]):([^}]+)\}/g;
 
-const state = { notation: 'concert', units: [], progress: {}, quiz: null, arpeggioPattern: 'up' };
+const state = { notation: 'concert', units: [], progress: {}, quiz: null, arpeggioPattern: 'up', arpeggioTempo: 90, arpeggioLoop: false };
 const view = document.getElementById('view');
 
 function loadSettings() {
@@ -17,6 +17,8 @@ function loadSettings() {
     if (saved.notation in NOTATIONS) state.notation = saved.notation;
     state.progress = saved.progress ?? {};
     if (saved.arpeggioPattern in ARPEGGIO_PATTERNS) state.arpeggioPattern = saved.arpeggioPattern;
+    if (TEMPOS.includes(saved.arpeggioTempo)) state.arpeggioTempo = saved.arpeggioTempo;
+    state.arpeggioLoop = saved.arpeggioLoop === true;
   } catch {
     // 非公開モードなどで読めなくても、既定値のまま使えるようにする
   }
@@ -24,7 +26,7 @@ function loadSettings() {
 
 function saveSettings() {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ notation: state.notation, progress: state.progress, arpeggioPattern: state.arpeggioPattern }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ notation: state.notation, progress: state.progress, arpeggioPattern: state.arpeggioPattern, arpeggioTempo: state.arpeggioTempo, arpeggioLoop: state.arpeggioLoop }));
   } catch {
     // 保存できない環境でも学習自体は続けられるので、失敗は無視する
   }
@@ -80,7 +82,10 @@ function staffFigure(columns, notation = state.notation) {
     notes: column.notes.map((note) => toWritten(note, notation)),
     label: column.chord ? chordName(column.chord, notation) : ''
   }))));
-  figure.append(button('play-button', '▶ Play', () => playColumns(columns)));
+  figure.append(button('play-button', '▶ Play', () => {
+    stopArpeggio();
+    playColumns(columns);
+  }));
   return figure;
 }
 
@@ -108,6 +113,11 @@ const ARPEGGIO_PATTERNS = {
 // 「つなぐ」で線が高すぎ・低すぎにならないよう、この高さ（実音のG4）に近づく向きへ進む
 const CENTER_MIDI = 67;
 const KEY_COUNT = 12;
+const TEMPOS = [60, 90, 120, 160];
+// 鳴らしている譜例は1つだけ。別の譜例を鳴らしたり画面を描き直したりしたら止める
+let playingArpeggio = null;
+// テンポと繰り返しは全カード共通なので、表示中の譜例すべてのボタンをそろえて描き直す
+const arpeggioRedraws = new Set();
 const FOURTH_SEMITONES = 5;
 // 画面を描き直しても（記譜の切り替えなど）、譜例ごとに選んだキーを覚えておく
 const arpeggioKeys = new Map();
@@ -245,24 +255,78 @@ function patternControls(id, figure) {
   return bar;
 }
 
+function stopArpeggio() {
+  stopLine();
+  const previous = playingArpeggio;
+  playingArpeggio = null;
+  if (previous) previous.redraw();
+}
+
+// 8分音符で吹く想定で、1音の長さをテンポ（1分間の4分音符の数）から決める
+function startArpeggio(player) {
+  stopArpeggio();
+  playingArpeggio = player;
+  playLine(player.sequence, 30 / state.arpeggioTempo, state.arpeggioLoop, () => {
+    if (playingArpeggio === player) stopArpeggio();
+  });
+  player.redraw();
+}
+
+// 鳴っている譜例は新しいテンポ・繰り返しの設定で鳴らし直す
+function refreshArpeggios() {
+  for (const redraw of arpeggioRedraws) redraw();
+  if (playingArpeggio) startArpeggio(playingArpeggio);
+}
+
+function playControls(player) {
+  const tempos = el('div', 'segments');
+  for (const tempo of TEMPOS) {
+    const option = button('segment', `♩=${tempo}`, () => {
+      state.arpeggioTempo = tempo;
+      saveSettings();
+      refreshArpeggios();
+    });
+    option.setAttribute('aria-pressed', String(tempo === state.arpeggioTempo));
+    tempos.append(option);
+  }
+  const loop = button('play-button loop-button', 'Loop', () => {
+    state.arpeggioLoop = !state.arpeggioLoop;
+    saveSettings();
+    refreshArpeggios();
+  });
+  loop.setAttribute('aria-pressed', String(state.arpeggioLoop));
+  const row = el('div', 'arpeggio-controls tempo-row');
+  row.append(tempos, loop);
+  const isPlaying = playingArpeggio === player;
+  const play = button('play-button', isPlaying ? '■ Stop' : '▶ Play arpeggio', () => (isPlaying ? stopArpeggio() : startArpeggio(player)));
+  return [row, play];
+}
+
 function arpeggioFigure(columns, notation) {
   const original = arpeggioChords(columns);
   if (original.length === 0) return null;
   const id = original.map((chord) => chordName(chord, 'concert')).join(' ');
   const figure = el('figure', 'example');
   figure.dataset.arpeggio = id;
-  const redraw = () => {
+  const player = { sequence: [], redraw: null };
+  // 繰り返し中にキーを変えたら、新しいキーでそのまま鳴らし続ける
+  const changeKey = () => {
+    player.redraw();
+    if (playingArpeggio === player) startArpeggio(player);
+  };
+  player.redraw = () => {
     const lines = patternLines(transposeChords(original, arpeggioKeys.get(id) ?? 0, notation), state.arpeggioPattern);
-    const sequence = lines.flatMap(({ line }) => line.map((note) => ({ notes: [note], chord: null })));
+    player.sequence = lines.flatMap(({ line }) => line);
     figure.replaceChildren(
       patternControls(id, figure),
       el('figcaption', 'note', `Arpeggio: ${ARPEGGIO_PATTERNS[state.arpeggioPattern].caption}`),
       ...arpeggioStaves(lines, notation),
-      keyControls(id, redraw),
-      button('play-button', '▶ Play arpeggio', () => playColumns(sequence))
+      keyControls(id, changeKey),
+      ...playControls(player)
     );
   };
-  redraw();
+  arpeggioRedraws.add(player.redraw);
+  player.redraw();
   return figure;
 }
 
@@ -447,6 +511,8 @@ function renderQuiz(unit) {
 
 // 画面の切り替えは #/単元id と #/単元id/quiz で表し、iPhoneの戻る操作にも対応させる
 function render(scrollTop = true) {
+  stopArpeggio();
+  arpeggioRedraws.clear();
   view.replaceChildren();
   const [unitId, tab] = location.hash.replace(/^#\//, '').split('/');
   const unit = state.units.find((item) => item.id === unitId);

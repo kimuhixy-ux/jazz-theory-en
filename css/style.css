@@ -304,6 +304,16 @@ button,
   flex: none;
 }
 
+.tempo-row {
+  align-self: stretch;
+  flex-wrap: nowrap;
+}
+
+.loop-button[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
 .key-label {
   min-width: 6em;
   text-align: center;

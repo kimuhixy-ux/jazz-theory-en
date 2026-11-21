@@ -1,5 +1,5 @@
 // コードやデータを更新したら必ず番号を上げる（上げ忘れると端末に古い版が残る）
-const CACHE_NAME = 'jazz-theory-en-v9';
+const CACHE_NAME = 'jazz-theory-en-v10';
 const PRECACHE = [
   './',
   'index.html',
