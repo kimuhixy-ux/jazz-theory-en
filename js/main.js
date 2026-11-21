@@ -1,4 +1,4 @@
-import { NOTATIONS, parseNote, parseChord, noteName, chordName, chordNotes, toWritten, transpose, placeRoot } from './theory.js';
+import { NOTATIONS, parseNote, parseChord, noteName, chordName, chordNotes, toWritten, transpose, placeRoot, addInterval, noteToMidi } from './theory.js';
 import { drawStaff } from './staff.js';
 import { unlockAudio, playColumns } from './audio.js';
 import { buildQuiz } from './quiz.js';
@@ -8,7 +8,7 @@ const STORAGE_KEY = 'jazz-theory-en';
 const QUIZ_LENGTH = 10;
 const TOKEN = /\{([nc]):([^}]+)\}/g;
 
-const state = { notation: 'concert', units: [], progress: {}, quiz: null };
+const state = { notation: 'concert', units: [], progress: {}, quiz: null, arpeggioPattern: 'up' };
 const view = document.getElementById('view');
 
 function loadSettings() {
@@ -16,6 +16,7 @@ function loadSettings() {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) ?? {};
     if (saved.notation in NOTATIONS) state.notation = saved.notation;
     state.progress = saved.progress ?? {};
+    if (saved.arpeggioPattern in ARPEGGIO_PATTERNS) state.arpeggioPattern = saved.arpeggioPattern;
   } catch {
     // 非公開モードなどで読めなくても、既定値のまま使えるようにする
   }
@@ -23,7 +24,7 @@ function loadSettings() {
 
 function saveSettings() {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ notation: state.notation, progress: state.progress }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ notation: state.notation, progress: state.progress, arpeggioPattern: state.arpeggioPattern }));
   } catch {
     // 保存できない環境でも学習自体は続けられるので、失敗は無視する
   }
@@ -98,6 +99,14 @@ function arpeggioChords(columns) {
   return chords;
 }
 
+const ARPEGGIO_PATTERNS = {
+  up: { label: '1-3-5-7', caption: 'Chord tones one at a time, from the bottom' },
+  rootless: { label: '3-5-7-9', caption: 'Skip the root and run from the 3rd up to the 9th, the shape most used when a bass player covers the root' },
+  updown: { label: 'Up-down', caption: 'Up from the bottom, then back down' },
+  connect: { label: 'Connect', caption: 'Start each chord on the tone closest to the last note, so the line moves smoothly across chord changes' }
+};
+// 「つなぐ」で線が高すぎ・低すぎにならないよう、この高さ（実音のG4）に近づく向きへ進む
+const CENTER_MIDI = 67;
 const KEY_COUNT = 12;
 const FOURTH_SEMITONES = 5;
 // 画面を描き直しても（記譜の切り替えなど）、譜例ごとに選んだキーを覚えておく
@@ -139,11 +148,66 @@ function readable(note) {
   return note;
 }
 
+// 3和音は9thの代わりに1オクターブ上のルートで締めて、4音の形をそろえる
+function rootlessTones(chord) {
+  const tones = chordNotes(chord);
+  const upper = tones.slice(1);
+  if (tones.length === 4) upper.push(addInterval(chord.root, 'M9'));
+  if (tones.length === 3) upper.push({ ...chord.root, octave: chord.root.octave + 1 });
+  return upper;
+}
+
+// 前の音を越えた側で、いちばん近いオクターブに置く
+function placeBeyond(note, previousMidi, down) {
+  let placed = { ...note, octave: note.octave + Math.round((previousMidi - noteToMidi(note)) / 12) };
+  while (down ? noteToMidi(placed) >= previousMidi : noteToMidi(placed) <= previousMidi) {
+    placed = { ...placed, octave: placed.octave + (down ? -1 : 1) };
+  }
+  return placed;
+}
+
+function connectedTones(chord, previousMidi) {
+  if (previousMidi === null) return chordNotes(chord);
+  // 9thなどは2度の位置に折りたたみ、1オクターブ内の低い順に回すと隣り合う音へ進める
+  const rootMidi = noteToMidi(chord.root);
+  const tones = chordNotes(chord).sort((a, b) => ((noteToMidi(a) - rootMidi) % 12) - ((noteToMidi(b) - rootMidi) % 12));
+  const near = tones.map((note) => ({ ...note, octave: note.octave + Math.round((previousMidi - noteToMidi(note)) / 12) }));
+  const distance = (note) => Math.abs(noteToMidi(note) - previousMidi);
+  const start = near.reduce((best, note, i) => (distance(note) < distance(near[best]) ? i : best), 0);
+  const lineFrom = (down) => {
+    const line = [near[start]];
+    for (let k = 1; k < tones.length; k += 1) {
+      const index = ((start + (down ? -k : k)) % tones.length + tones.length) % tones.length;
+      line.push(placeBeyond(tones[index], noteToMidi(line[k - 1]), down));
+    }
+    return line;
+  };
+  // 進行が長いと線が上か下へ流れていくので、音の平均が真ん中の高さに近いほうへ進む
+  const offset = (line) => Math.abs(line.reduce((sum, note) => sum + noteToMidi(note), 0) / line.length - CENTER_MIDI);
+  const up = lineFrom(false);
+  const down = lineFrom(true);
+  return offset(down) < offset(up) ? down : up;
+}
+
+// コードごとに、選んだ型で吹く音の並び（実音）を作る
+function patternLines(chords, pattern) {
+  let previousMidi = null;
+  return chords.map((chord) => {
+    const tones = chordNotes(chord);
+    let line = tones;
+    if (pattern === 'rootless') line = rootlessTones(chord);
+    if (pattern === 'updown') line = [...tones, ...tones.slice(0, -1).reverse()];
+    if (pattern === 'connect') line = connectedTones(chord, previousMidi);
+    previousMidi = noteToMidi(line[line.length - 1]);
+    return { chord, line };
+  });
+}
+
 // 1音ずつの列は狭くてよいので、2コードずつ1段にして小さな画面でも音符が小さくなりすぎないようにする
-function arpeggioStaves(chords, notation) {
+function arpeggioStaves(lines, notation) {
   const staves = [];
-  for (let i = 0; i < chords.length; i += ARPEGGIO_CHORDS_PER_ROW) {
-    const row = chords.slice(i, i + ARPEGGIO_CHORDS_PER_ROW).flatMap((chord) => chordNotes(chord).map((note, k) => ({
+  for (let i = 0; i < lines.length; i += ARPEGGIO_CHORDS_PER_ROW) {
+    const row = lines.slice(i, i + ARPEGGIO_CHORDS_PER_ROW).flatMap(({ chord, line }) => line.map((note, k) => ({
       notes: [readable(toWritten(note, notation))],
       label: k === 0 ? chordName(chord, notation) : ''
     })));
@@ -163,17 +227,37 @@ function keyControls(id, redraw) {
   return row;
 }
 
+// 型は全カード共通の設定なので、ページごと描き直し、押した譜例が画面上で動かないようにずらし直す
+function patternControls(id, figure) {
+  const bar = el('div', 'segments arpeggio-patterns');
+  for (const [key, pattern] of Object.entries(ARPEGGIO_PATTERNS)) {
+    const option = button('segment', pattern.label, () => {
+      const before = figure.getBoundingClientRect().top;
+      state.arpeggioPattern = key;
+      saveSettings();
+      render(false);
+      const after = [...view.querySelectorAll('[data-arpeggio]')].find((node) => node.dataset.arpeggio === id);
+      if (after) window.scrollBy(0, after.getBoundingClientRect().top - before);
+    });
+    option.setAttribute('aria-pressed', String(key === state.arpeggioPattern));
+    bar.append(option);
+  }
+  return bar;
+}
+
 function arpeggioFigure(columns, notation) {
   const original = arpeggioChords(columns);
   if (original.length === 0) return null;
   const id = original.map((chord) => chordName(chord, 'concert')).join(' ');
   const figure = el('figure', 'example');
+  figure.dataset.arpeggio = id;
   const redraw = () => {
-    const chords = transposeChords(original, arpeggioKeys.get(id) ?? 0, notation);
-    const sequence = chords.flatMap((chord) => chordNotes(chord).map((note) => ({ notes: [note], chord: null })));
+    const lines = patternLines(transposeChords(original, arpeggioKeys.get(id) ?? 0, notation), state.arpeggioPattern);
+    const sequence = lines.flatMap(({ line }) => line.map((note) => ({ notes: [note], chord: null })));
     figure.replaceChildren(
-      el('figcaption', 'note', 'Arpeggio (chord tones one at a time, from the bottom)'),
-      ...arpeggioStaves(chords, notation),
+      patternControls(id, figure),
+      el('figcaption', 'note', `Arpeggio: ${ARPEGGIO_PATTERNS[state.arpeggioPattern].caption}`),
+      ...arpeggioStaves(lines, notation),
       keyControls(id, redraw),
       button('play-button', '▶ Play arpeggio', () => playColumns(sequence))
     );

@@ -298,6 +298,12 @@ button,
   gap: 8px;
 }
 
+/* 図の中は左寄せなので、型の切り替えだけは横いっぱいに広げて押しやすくする */
+.arpeggio-patterns {
+  align-self: stretch;
+  flex: none;
+}
+
 .key-label {
   min-width: 6em;
   text-align: center;
