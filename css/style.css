@@ -265,6 +265,21 @@ button,
   stroke-width: 2.2;
 }
 
+/* マイクで吹けた音は塗りつぶし、次に吹く音は目立つ色にして、今どこを吹くかを譜面上で追えるようにする */
+.notehead.done {
+  fill: var(--good);
+  stroke: var(--good);
+}
+
+.notehead.current {
+  stroke: var(--brass);
+  stroke-width: 3.2;
+}
+
+.heard-label {
+  font-weight: 600;
+}
+
 .clef {
   fill: currentColor;
   font-size: 80px;

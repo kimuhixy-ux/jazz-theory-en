@@ -1,6 +1,7 @@
 import { NOTATIONS, parseNote, parseChord, noteName, chordName, chordNotes, toWritten, transpose, placeRoot, addInterval, noteToMidi } from './theory.js';
 import { drawStaff } from './staff.js';
 import { unlockAudio, playColumns, playLine, stopLine } from './audio.js';
+import { startListening, stopListening } from './mic.js';
 import { buildQuiz } from './quiz.js';
 
 // 日本語版と同じドメインで公開するため、進み具合が混ざらないよう別の名前で保存する
@@ -84,6 +85,7 @@ function staffFigure(columns, notation = state.notation) {
   }))));
   figure.append(button('play-button', '▶ Play', () => {
     stopArpeggio();
+    stopMic();
     playColumns(columns);
   }));
   return figure;
@@ -116,6 +118,13 @@ const KEY_COUNT = 12;
 const TEMPOS = [60, 90, 120, 160];
 // 鳴らしている譜例は1つだけ。別の譜例を鳴らしたり画面を描き直したりしたら止める
 let playingArpeggio = null;
+let listeningPlayer = null;
+// この半音の何割以内のずれなら合っているとみなすか。サックスの音程の揺れを許すため少し甘めにする
+const MATCH_CENTS = 0.4;
+// 1コマ約17ms。これだけ続けて同じ音が聞こえたら吹いたとみなし、一瞬の雑音で進まないようにする
+const MATCH_FRAMES = 4;
+// 記譜の音名は♯♭の多い調では読み替えが要るが、聞こえた音の確認には一番なじみのある書き方で十分
+const PITCH_NAMES = ['C', 'C♯', 'D', 'E♭', 'E', 'F', 'F♯', 'G', 'A♭', 'A', 'B♭', 'B'];
 // テンポと繰り返しは全カード共通なので、表示中の譜例すべてのボタンをそろえて描き直す
 const arpeggioRedraws = new Set();
 const FOURTH_SEMITONES = 5;
@@ -214,12 +223,20 @@ function patternLines(chords, pattern) {
 }
 
 // 1音ずつの列は狭くてよいので、2コードずつ1段にして小さな画面でも音符が小さくなりすぎないようにする
-function arpeggioStaves(lines, notation) {
+// nextIndex: マイクで次に吹く音の番号。それより前は吹けた音として色を変える（聞いていないときは -1）
+function arpeggioStaves(lines, notation, nextIndex) {
   const staves = [];
+  let count = 0;
+  const markOf = (n) => {
+    if (nextIndex < 0) return '';
+    if (n < nextIndex) return 'done';
+    return n === nextIndex ? 'current' : '';
+  };
   for (let i = 0; i < lines.length; i += ARPEGGIO_CHORDS_PER_ROW) {
     const row = lines.slice(i, i + ARPEGGIO_CHORDS_PER_ROW).flatMap(({ chord, line }) => line.map((note, k) => ({
       notes: [readable(toWritten(note, notation))],
-      label: k === 0 ? chordName(chord, notation) : ''
+      label: k === 0 ? chordName(chord, notation) : '',
+      mark: markOf(count++)
     })));
     staves.push(drawStaff(row, ARPEGGIO_COLUMN_WIDTH));
   }
@@ -265,6 +282,7 @@ function stopArpeggio() {
 // 8分音符で吹く想定で、1音の長さをテンポ（1分間の4分音符の数）から決める
 function startArpeggio(player) {
   stopArpeggio();
+  stopMic();
   playingArpeggio = player;
   playLine(player.sequence, 30 / state.arpeggioTempo, state.arpeggioLoop, () => {
     if (playingArpeggio === player) stopArpeggio();
@@ -302,15 +320,76 @@ function playControls(player) {
   return [row, play];
 }
 
+function stopMic() {
+  stopListening();
+  const previous = listeningPlayer;
+  listeningPlayer = null;
+  if (previous) previous.redraw();
+}
+
+function pitchClass(midi) {
+  return ((midi % 12) + 12) % 12;
+}
+
+// 同じ高さが続くとき1回吹いただけで2音ぶん進まないよう、一度音を切るか高さを変えるまで次を数えない
+function hearPitch(player, midi, notation) {
+  const listen = player.listen;
+  const rounded = midi === null ? null : Math.round(midi);
+  player.heardLabel.textContent = rounded === null ? 'Heard: —' : `Heard: ${PITCH_NAMES[pitchClass(rounded + NOTATIONS[notation].semitones)]}`;
+  if (rounded === null || pitchClass(rounded) !== listen.lastClass) listen.released = true;
+  const target = noteToMidi(player.sequence[listen.index]);
+  // サックスはオクターブを替えて吹くことも多いので、音名が合えば正解にする
+  const matches = rounded !== null && Math.abs(midi - rounded) < MATCH_CENTS && pitchClass(rounded) === pitchClass(target);
+  listen.hits = matches && listen.released ? listen.hits + 1 : 0;
+  if (listen.hits < MATCH_FRAMES) return;
+  Object.assign(listen, { index: listen.index + 1, hits: 0, lastClass: pitchClass(rounded), released: false });
+  if (listen.index >= player.sequence.length) {
+    player.micMessage = 'You played it all the way through!';
+    stopMic();
+    return;
+  }
+  player.redraw();
+}
+
+async function startMic(player, notation) {
+  stopArpeggio();
+  stopMic();
+  player.listen = { index: 0, hits: 0, lastClass: null, released: true };
+  player.micMessage = '';
+  listeningPlayer = player;
+  player.redraw();
+  try {
+    await startListening((midi) => {
+      if (listeningPlayer === player) hearPitch(player, midi, notation);
+    });
+  } catch {
+    player.micMessage = 'Could not use the microphone. Please allow microphone access for this site in Settings.';
+    stopMic();
+  }
+}
+
+function micControls(player, notation) {
+  const isListening = listeningPlayer === player;
+  const mic = button('play-button', isListening ? '■ Stop mic' : '🎤 Play it and check', () => (isListening ? stopMic() : startMic(player, notation)));
+  player.heardLabel = el('span', 'heard-label', isListening ? 'Heard: —' : '');
+  const row = el('div', 'arpeggio-controls');
+  row.append(mic, player.heardLabel);
+  const status = isListening
+    ? `Note ${player.listen.index + 1} of ${player.sequence.length}: play the colored note (any octave counts)`
+    : player.micMessage;
+  return status ? [row, el('p', 'note mic-status', status)] : [row];
+}
+
 function arpeggioFigure(columns, notation) {
   const original = arpeggioChords(columns);
   if (original.length === 0) return null;
   const id = original.map((chord) => chordName(chord, 'concert')).join(' ');
   const figure = el('figure', 'example');
   figure.dataset.arpeggio = id;
-  const player = { sequence: [], redraw: null };
-  // 繰り返し中にキーを変えたら、新しいキーでそのまま鳴らし続ける
+  const player = { sequence: [], redraw: null, listen: null, micMessage: '', heardLabel: null };
+  // 繰り返し中にキーを変えたら、新しいキーでそのまま鳴らし続ける。マイクで聞いている途中なら新しいキーの1音目から
   const changeKey = () => {
+    if (listeningPlayer === player) Object.assign(player.listen, { index: 0, hits: 0, released: true });
     player.redraw();
     if (playingArpeggio === player) startArpeggio(player);
   };
@@ -320,9 +399,10 @@ function arpeggioFigure(columns, notation) {
     figure.replaceChildren(
       patternControls(id, figure),
       el('figcaption', 'note', `Arpeggio: ${ARPEGGIO_PATTERNS[state.arpeggioPattern].caption}`),
-      ...arpeggioStaves(lines, notation),
+      ...arpeggioStaves(lines, notation, listeningPlayer === player ? player.listen.index : -1),
       keyControls(id, changeKey),
-      ...playControls(player)
+      ...playControls(player),
+      ...micControls(player, notation)
     );
   };
   arpeggioRedraws.add(player.redraw);
@@ -512,6 +592,7 @@ function renderQuiz(unit) {
 // 画面の切り替えは #/単元id と #/単元id/quiz で表し、iPhoneの戻る操作にも対応させる
 function render(scrollTop = true) {
   stopArpeggio();
+  stopMic();
   arpeggioRedraws.clear();
   view.replaceChildren();
   const [unitId, tab] = location.hash.replace(/^#\//, '').split('/');

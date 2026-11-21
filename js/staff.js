@@ -51,7 +51,7 @@ function drawColumn(svg, column, x, yOf) {
     const noteX = shifted ? x + 12 : x;
     const y = yOf(d);
     drawLedgers(svg, d, noteX, yOf);
-    svg.append(svgEl('ellipse', { cx: noteX, cy: y, rx: 6.4, ry: 4.3, transform: `rotate(-20 ${noteX} ${y})`, class: 'notehead' }));
+    svg.append(svgEl('ellipse', { cx: noteX, cy: y, rx: 6.4, ry: 4.3, transform: `rotate(-20 ${noteX} ${y})`, class: column.mark ? `notehead ${column.mark}` : 'notehead' }));
     if (note.acc !== 0) {
       const accidentalX = x - 11 - (accidentalCount % 2) * 9;
       svg.append(svgText(ACCIDENTALS[note.acc], { x: accidentalX, y: y + 5, class: 'accidental' }));
@@ -61,7 +61,7 @@ function drawColumn(svg, column, x, yOf) {
   }
 }
 
-// columns: [{ notes: [記譜音の音], label: '表示するコード名' }]
+// columns: [{ notes: [記譜音の音], label: '表示するコード名', mark: マイクで吹けた音は 'done'・次に吹く音は 'current' }]
 // fixedColumnWidth: 1音ずつ並べる譜面では、コード名に合わせて列を広げず指定の幅にする
 export function drawStaff(columns, fixedColumnWidth) {
   const indices = columns.flatMap((column) => column.notes.map(diatonicIndex));
