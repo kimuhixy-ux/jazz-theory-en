@@ -372,7 +372,8 @@
           "text": [
             "{c:Cmaj7} takes the 9th, ♯11th and 13th; {c:Dm7} takes the 9th and 11th.",
             "{c:G7} is the most flexible: besides the 9th and 13th, it can use half-step-shifted notes like the ♭9th and ♯9th.",
-            "The examples leave out the root and add tensions (the bass plays the root)."
+            "The examples leave out the root and add tensions (the bass plays the root).",
+            "In the example, {n:E5} is the 9th of {c:Dm7}; {n:A4} is the 9th and {n:E5} the 13th of {c:G7}; and {n:D5} is the 9th of {c:Cmaj7}."
           ],
           "example": { "columns": [{ "notes": ["F4", "A4", "C5", "E5"], "chord": "Dm7" }, { "notes": ["F4", "A4", "B4", "E5"], "chord": "G7" }, { "notes": ["E4", "G4", "B4", "D5"], "chord": "Cmaj7" }] }
         },
@@ -407,7 +408,8 @@
           "title": "The difference from major is the flatted note",
           "text": [
             "Compared with {c:Dm7} in major, {c:Dm7b5} has its 5th lowered a half step to {n:Ab4}.",
-            "{c:G7b9} contains the same {n:Ab4} as its ♭9th. This note carries the minor feeling."
+            "{c:G7b9} contains the same {n:Ab4} as its ♭9th. This note carries the minor feeling.",
+            "The example sets {c:Dm7} beside {c:Dm7b5}, then {c:G7} beside {c:G7b9}. In each pair, the chord with {n:Ab4} sounds darker."
           ],
           "example": { "chords": ["Dm7", "Dm7b5", "G7", "G7b9"] }
         },
@@ -435,7 +437,8 @@
           "title": "Any chord can get its own dominant",
           "text": [
             "Like {c:G7} → {c:Cmaj7}, a 7 chord is strongly pulled toward the chord a perfect 5th below.",
-            "Put a 7 chord a perfect 5th above any other chord in the key and you get the same pull. This is called a secondary dominant."
+            "Put a 7 chord a perfect 5th above any other chord in the key and you get the same pull. This is called a secondary dominant.",
+            "In the example, {c:A7} is the 7 chord a perfect fifth above {c:Dm7} and pulls toward it; then the usual {c:G7} → {c:Cmaj7} follows."
           ],
           "example": { "chords": ["A7", "Dm7", "G7", "Cmaj7"] }
         },
@@ -688,7 +691,8 @@
           "title": "Altered notes just for dominants",
           "text": [
             "On a 7 chord you can use the 9th and 13th shifted by a half step, ♭9th, ♯9th, ♭13th, and the 11th raised to ♯11th. These are called altered tensions.",
-            "On {c:C7}: ♭9th = {n:Db5}, ♯9th = {n:D#5}, ♯11th = {n:F#5}, ♭13th = {n:Ab5}."
+            "On {c:C7}: ♭9th = {n:Db5}, ♯9th = {n:D#5}, ♯11th = {n:F#5}, ♭13th = {n:Ab5}.",
+            "The example puts the ♭13th {n:Ab4} and the ♭9th {n:Db5} on top of the 7th {n:Bb3} and 3rd {n:E4} of {c:C7} (the root is left to the bass)."
           ],
           "example": { "columns": [{ "notes": ["Bb3", "E4", "Ab4", "Db5"], "chord": "C7" }] }
         },
@@ -696,7 +700,8 @@
           "title": "Choose by where it resolves",
           "text": [
             "In {c:G7} → {c:Cm7}, resolving to minor, the ♭9th and ♭13th ({n:Ab4}, {n:Eb5}) match the key and sound natural.",
-            "In {c:G7} → {c:Cmaj7}, resolving to major, the 9th and 13th ({n:A4}, {n:E5}) sound natural. Using the ♭9th on purpose creates strong tension."
+            "In {c:G7} → {c:Cmaj7}, resolving to major, the 9th and 13th ({n:A4}, {n:E5}) sound natural. Using the ♭9th on purpose creates strong tension.",
+            "The example shows the minor case: the ♭9th {n:Ab4} and ♭13th {n:Eb5} over the 3rd {n:B3} and 7th {n:F4} of {c:G7}, moving to {c:Cm7}."
           ],
           "example": { "columns": [{ "notes": ["B3", "F4", "Ab4", "Eb5"], "chord": "G7" }, { "chord": "Cm7" }] }
         },
@@ -775,7 +780,8 @@
           "title": "II and V at once",
           "text": [
             "Play the notes of {c:Dm7} over a {n:G3} in the bass and it sounds close to {c:G7sus4}.",
-            "It layers IIm7 over V7, so one chord can do the work of a whole II–V."
+            "It layers IIm7 over V7, so one chord can do the work of a whole II–V.",
+            "Compare them in the example: {c:Dm7} ({n:D4}, {n:F4}, {n:A4}, {n:C5}) and {c:G7sus4} ({n:G3}, {n:C4}, {n:D4}, {n:F4}) share three notes, {n:C4}, {n:D4} and {n:F4}."
           ],
           "example": { "chords": ["Dm7", "G7sus4"] }
         }
@@ -869,7 +875,8 @@
           "title": "Put a triad on top",
           "text": [
             "The left hand (bottom) holds the root, 3rd and 7th of {c:C7}, and the right hand (top) plays a different triad.",
-            "The triad's three notes become tensions just as they are. It is much easier to grab than counting tensions one by one."
+            "The triad's three notes become tensions just as they are. It is much easier to grab than counting tensions one by one.",
+            "In the example, the lower three notes are {n:C4}, {n:E4}, {n:Bb4} of {c:C7}, and the upper three are a {c:D} triad ({n:D5}, {n:F#5}, {n:A5})."
           ],
           "example": { "columns": [{ "notes": ["C4", "E4", "Bb4", "D5", "F#5", "A5"], "chord": "C7" }] }
         },
@@ -885,7 +892,8 @@
           "title": "The ♭VI and VI triads",
           "text": [
             "Put {c:Ab} on top of {c:C7} for ♭13th, root, ♯9th; put {c:A} on top for 13th, ♭9th, 3rd.",
-            "Both give an altered sound with a strong pull toward the next chord."
+            "Both give an altered sound with a strong pull toward the next chord.",
+            "On the left of the example the top is an {c:Ab} triad ({n:Ab5}, {n:C6}, {n:Eb6}); on the right, an {c:A} triad ({n:A5}, {n:C#6}, {n:E6}). In both, the lower three notes are {n:C4}, {n:E4}, {n:Bb4} of {c:C7}."
           ],
           "example": { "columns": [{ "notes": ["C4", "E4", "Bb4", "Ab5", "C6", "Eb6"], "chord": "C7" }, { "notes": ["C4", "E4", "Bb4", "A5", "C#6", "E6"], "chord": "C7" }] }
         }
@@ -921,7 +929,8 @@
           "title": "Line clichés in tunes",
           "text": [
             "They often appear at the start of minor-key tunes. \"My Funny Valentine\" is the classic example.",
-            "Even where one chord lasts a long time, a line cliché adds motion."
+            "Even where one chord lasts a long time, a line cliché adds motion.",
+            "The example plays the same motion in {n:C4} minor: the top note falls a half step at a time, {n:C5} → {n:B4} → {n:Bb4} → {n:A4}, turning {c:Cm} into {c:CmMaj7}, {c:Cm7} and {c:Cm6}."
           ],
           "example": { "columns": [{ "notes": ["C4", "Eb4", "G4", "C5"], "chord": "Cm" }, { "notes": ["C4", "Eb4", "G4", "B4"], "chord": "CmMaj7" }, { "notes": ["C4", "Eb4", "G4", "Bb4"], "chord": "Cm7" }, { "notes": ["C4", "Eb4", "G4", "A4"], "chord": "Cm6" }] }
         }
@@ -957,7 +966,8 @@
           "title": "The parent of other scales",
           "text": [
             "Start melodic minor on its 4th note and you get Lydian Dominant; start it on its 7th note and you get Altered.",
-            "It is the source of important dominant scales used in the coming units."
+            "It is the source of important dominant scales used in the coming units.",
+            "The example is {c:CmMaj7}, stacking notes 1, 3, 5 and 7 of {n:C4} melodic minor. The same seven notes started on {n:F4} give {n:F4} Lydian dominant, and started on {n:B4} give {n:B4} altered."
           ],
           "example": { "columns": [{ "notes": ["C4", "Eb4", "G4", "B4"], "chord": "CmMaj7" }] }
         }
@@ -986,7 +996,8 @@
           "title": "For 7(alt)",
           "text": [
             "Use it when resolving to minor, like {c:C7} → {c:Fm7}, or whenever you want strong tension.",
-            "When a chart says C7alt, this is the scale to reach for."
+            "When a chart says C7alt, this is the scale to reach for.",
+            "The example adds the ♭9th {n:Db5} and ♭13th {n:Ab5} to {c:C7} and resolves to {c:Fm7}. Both notes belong to the altered scale."
           ],
           "example": { "columns": [{ "notes": ["C4", "E4", "Bb4", "Db5", "Ab5"], "chord": "C7" }, { "chord": "Fm7" }] }
         },
@@ -1089,7 +1100,8 @@
           "title": "Five dominant scales",
           "text": [
             "Mixolydian: 9th, 13th. Lydian Dominant: 9th, ♯11th, 13th.",
-            "Half-whole diminished: ♭9th, ♯9th, 13th. Altered: ♭9th, ♯9th, ♭13th. Whole tone: 9th, ♯11th, ♯5."
+            "Half-whole diminished: ♭9th, ♯9th, 13th. Altered: ♭9th, ♯9th, ♭13th. Whole tone: 9th, ♯11th, ♯5.",
+            "The example is the base {c:C7}. Its root, 3rd and 7th ({n:C4}, {n:E4}, {n:Bb4}) are in all five scales; what differs is the tensions added on top."
           ],
           "example": { "chords": ["C7"] }
         },
@@ -1097,7 +1109,8 @@
           "title": "Choose by destination",
           "text": [
             "Resolving to major, start with Mixolydian. Resolving to minor, use Altered or half-whole diminished, which contain the ♭9th and ♭13th.",
-            "For 7 chords that don't resolve (tritone subs or the IV7 of a blues), Lydian Dominant suits well."
+            "For 7 chords that don't resolve (tritone subs or the IV7 of a blues), Lydian Dominant suits well.",
+            "The first half of the example resolves to major, {c:C7} → {c:Fmaj7} (Mixolydian); the second half resolves to minor, {c:C7} → {c:Fm7} (altered or half-whole)."
           ],
           "example": { "chords": ["C7", "Fmaj7", "C7", "Fm7"] }
         },
@@ -1105,7 +1118,8 @@
           "title": "Reading tensions on a chart",
           "text": [
             "C7(♭9,13) means half-whole diminished, C7(♯11) means Lydian Dominant, C7(♯5) means whole tone.",
-            "Choose a scale that contains every tension written, and you can't go wrong."
+            "Choose a scale that contains every tension written, and you can't go wrong.",
+            "The example is {c:C7} with the ♭9th {n:Db5} and 13th {n:A5} on top. Only the half-whole scale contains both."
           ],
           "example": { "columns": [{ "notes": ["C4", "E4", "Bb4", "Db5", "A5"], "chord": "C7" }] }
         }
@@ -1132,7 +1146,8 @@
           "title": "Avoid notes by chord",
           "text": [
             "On maj7 (Ionian) and 7 (Mixolydian), the 11th (the 4th note) is the avoid note; on m7♭5 (Locrian), it's the ♭9th (the 2nd note).",
-            "m7 (Dorian) has no note that clashes a half step with a chord tone, so you can use almost every note freely."
+            "m7 (Dorian) has no note that clashes a half step with a chord tone, so you can use almost every note freely.",
+            "For the three chords in the example, the avoid notes are {n:F4} over {c:Cmaj7} and {c:C7}, and {n:Db4} over {c:Cm7b5}."
           ],
           "example": { "chords": ["Cmaj7", "C7", "Cm7b5"] }
         },
@@ -1140,7 +1155,8 @@
           "title": "Not forbidden",
           "text": [
             "Avoid notes work fine as short passing notes. What you avoid is holding them on a strong beat.",
-            "Lydian, which uses {n:F#4} as a ♯11th over {c:Cmaj7}, can be seen as a scale with the avoid note removed."
+            "Lydian, which uses {n:F#4} as a ♯11th over {c:Cmaj7}, can be seen as a scale with the avoid note removed.",
+            "In the first half of the example, {n:F4} only passes briefly between {n:E4} and {n:G4}; the second half uses the ♯11th {n:F#4} instead."
           ],
           "example": { "seq": ["E4", "F4", "G4", "F#4", "G4"] }
         }
@@ -1167,7 +1183,8 @@
           "title": "Why eight notes?",
           "text": [
             "Run down a 7-note scale in eighth notes and the chord tones drift off the beat.",
-            "With eight notes, descending from the root always puts chord tones on the beat: {n:C5}, {n:Bb4}, {n:G4}, {n:E4}. This is a secret of Charlie Parker's phrases."
+            "With eight notes, descending from the root always puts chord tones on the beat: {n:C5}, {n:Bb4}, {n:G4}, {n:E4}. This is a secret of Charlie Parker's phrases.",
+            "The example is the chord tones that land on the beats, {n:C4}, {n:E4}, {n:G4}, {n:Bb4}, which is {c:C7} itself. Going down the previous card's example, these four come every other note."
           ],
           "example": { "columns": [{ "notes": ["C4", "E4", "G4", "Bb4"], "chord": "C7" }] }
         },
@@ -1241,7 +1258,8 @@
           "title": "Four common shapes",
           "text": [
             "Triad a minor 7th above the bass → 9sus4. A whole step above → Lydian (♯11th). A minor 3rd above → m7.",
-            "A half step above → Phrygian (sus4, ♭9th). You can hear it in tunes like Herbie Hancock's \"Maiden Voyage\"."
+            "A half step above → Phrygian (sus4, ♭9th). You can hear it in tunes like Herbie Hancock's \"Maiden Voyage\".",
+            "The left of the example is {c:D}/{n:C3} (a whole step above: Lydian), the right is {c:Db}/{n:C3} (a half step above: Phrygian)."
           ],
           "example": { "columns": [{ "notes": ["C3", "D4", "F#4", "A4"], "chord": "D" }, { "notes": ["C3", "Db4", "F4", "Ab4"], "chord": "Db" }] }
         },
@@ -1249,7 +1267,8 @@
           "title": "Why it's handy",
           "text": [
             "Rather than long names like 9sus4 or (♭9)sus4, writing a triad and a bass is faster to play and easier to imagine.",
-            "On piano, right hand plays the triad and left hand the bass. On sax, just line up the triad's notes and your phrase has tensions built in."
+            "On piano, right hand plays the triad and left hand the bass. On sax, just line up the triad's notes and your phrase has tensions built in.",
+            "The example is the minor-third-above shape, {c:Eb}/{n:C3}: {n:C3}, {n:Eb4}, {n:G4}, {n:Bb4}, the same notes as {c:Cm7}."
           ],
           "example": { "columns": [{ "notes": ["C3", "Eb4", "G4", "Bb4"], "chord": "Eb" }] }
         }
@@ -1277,7 +1296,8 @@
           "title": "Why drop it?",
           "text": [
             "Close voicings are packed tight and sound a little muffled. Drop 2 spreads the notes for a brighter, more open sound.",
-            "It is easy to finger on guitar, and it is the most common shape for four-part sax section harmony."
+            "It is easy to finger on guitar, and it is the most common shape for four-part sax section harmony.",
+            "The left of the example is a close {c:Dm7} ({n:F4}, {n:A4}, {n:C5}, {n:E5}); the right drops the second note from the top, {n:C5}, an octave to make drop 2 ({n:C4}, {n:F4}, {n:A4}, {n:E5})."
           ],
           "example": { "columns": [{ "notes": ["F4", "A4", "C5", "E5"], "chord": "Dm7" }, { "notes": ["C4", "F4", "A4", "E5"], "chord": "Dm7" }] }
         },
@@ -1313,7 +1333,8 @@
           "title": "Where the minor key's V7 comes from",
           "text": [
             "In natural minor, the chord on the 5th note is {c:Gm7}. Raising the 7th to {n:B4} turns it into {c:G7}, which resolves strongly to {c:Cm7}.",
-            "The minor II–V uses {c:G7b9} because its ♭9th, {n:Ab4}, is also in this scale."
+            "The minor II–V uses {c:G7b9} because its ♭9th, {n:Ab4}, is also in this scale.",
+            "The example ends on {c:CmMaj7} rather than {c:Cm7} because the 7th of this scale is {n:B4}, so stacking on {n:C4} gives a major 7th."
           ],
           "example": { "chords": ["Dm7b5", "G7b9", "CmMaj7"] }
         },
@@ -1358,7 +1379,8 @@
           "title": "When to use which",
           "text": [
             "dim7 chords take the diminished scale starting with a whole step; 7(♭9) chords take the half-whole scale starting with a half step.",
-            "The same eight notes play a different role depending on where you start counting."
+            "The same eight notes play a different role depending on where you start counting.",
+            "The two chords in the example can actually be played with the same eight notes: whether you start on {n:D4} with a whole step or on {n:G4} with a half step, you use {n:D4}, {n:E4}, {n:F4}, {n:G4}, {n:Ab4}, {n:Bb4}, {n:B4}, {n:C#5}."
           ],
           "example": { "chords": ["Ddim7", "G7b9"] }
         }
@@ -1394,7 +1416,8 @@
           "title": "Move it in parallel along the scale",
           "text": [
             "Move the same shape up and down over Dorian notes and you get a floating, modal-jazz accompaniment.",
-            "The major 3rd on top adds a minor color to the quartal sound from the earlier unit."
+            "The major 3rd on top adds a minor color to the quartal sound from the earlier unit.",
+            "The right of the example shifts the same shape up one Dorian step ({n:E4}, {n:A4}, {n:D5}, {n:G5}, {n:B5})."
           ],
           "example": { "columns": [{ "notes": ["D4", "G4", "C5", "F5", "A5"], "chord": "Dm7" }, { "notes": ["E4", "A4", "D5", "G5", "B5"] }] }
         }
@@ -1430,7 +1453,8 @@
           "title": "Effective in modal jazz",
           "text": [
             "In modal jazz, where one chord lasts a long time, this kind of stepping out keeps things from getting monotonous.",
-            "John Coltrane and McCoy Tyner were masters of it. You can also slip a half step down."
+            "John Coltrane and McCoy Tyner were masters of it. You can also slip a half step down.",
+            "The example slips from {c:Dm7} to {c:Ebm7} a half step up, then comes back to {c:Dm7}."
           ],
           "example": { "chords": ["Dm7", "Ebm7", "Dm7"] }
         }
@@ -1450,7 +1474,8 @@
           "title": "Rewriting the chords",
           "text": [
             "Keeping the melody and changing only the chords is called reharmonization (reharm).",
-            "It is a basic arranging skill for making a standard your own."
+            "It is a basic arranging skill for making a standard your own.",
+            "The example is the original progression before reharmonizing, a two-five-one. The next card rewrites it with different tools."
           ],
           "example": { "chords": ["Dm7", "G7", "Cmaj7"] }
         },
@@ -1458,7 +1483,8 @@
           "title": "Four tools",
           "text": [
             "Tritone sub: {c:G7}→{c:Db7}. Secondary dominant: {c:Am7}→{c:A7}.",
-            "Passing diminished: {c:C#dim7} between {c:Cmaj7} and {c:Dm7}. Backdoor: {c:Fm7} → {c:Bb7} instead of {c:Dm7} → {c:G7}."
+            "Passing diminished: {c:C#dim7} between {c:Cmaj7} and {c:Dm7}. Backdoor: {c:Fm7} → {c:Bb7} instead of {c:Dm7} → {c:G7}.",
+            "The example uses the first tool, the tritone sub: {c:G7} is replaced by {c:Db7}."
           ],
           "example": { "chords": ["Dm7", "Db7", "Cmaj7"] }
         },
@@ -1493,7 +1519,8 @@
           "title": "Type A and type B",
           "text": [
             "Type A stacks from the 3rd (3-5-7-9); type B stacks from the 7th (7-9-3-5).",
-            "On 7 chords, the 13th usually replaces the 5th. Type B for {c:G7} is {n:F4}, {n:A4}, {n:B4}, {n:E5}."
+            "On 7 chords, the 13th usually replaces the 5th. Type B for {c:G7} is {n:F4}, {n:A4}, {n:B4}, {n:E5}.",
+            "The example compares them on {c:Cmaj7}: the left is type A ({n:E4}, {n:G4}, {n:B4}, {n:D5} = 3-5-7-9), the right is type B ({n:B3}, {n:D4}, {n:E4}, {n:G4} = 7-9-3-5)."
           ],
           "example": { "columns": [{ "notes": ["E4", "G4", "B4", "D5"], "chord": "Cmaj7" }, { "notes": ["B3", "D4", "E4", "G4"], "chord": "Cmaj7" }] }
         },
@@ -1529,7 +1556,8 @@
           "title": "Choose them to fit the chord",
           "text": [
             "For {c:Dm7} (Dorian), {c:F} and {c:G} on the 3rd and 4th. For {c:Cmaj7} (Lydian), {c:C} and {c:D} on the root and a whole step up.",
-            "For {c:G7} (Altered), {c:Db} and {c:Eb} on the diminished 5th and minor 6th."
+            "For {c:G7} (Altered), {c:Db} and {c:Eb} on the diminished 5th and minor 6th.",
+            "The example is the {c:Db} / {c:Eb} pair over {c:G7}. Its six notes, {n:Db4}, {n:F4}, {n:Ab4}, {n:Eb4}, {n:G4}, {n:Bb4}, all belong to {n:G4} altered."
           ],
           "example": { "columns": [{ "notes": ["G3", "B3", "D4", "F4"], "chord": "G7" }, { "chord": "Db" }, { "chord": "Eb" }] }
         },
@@ -1565,7 +1593,8 @@
           "title": "Scale note above, half step below",
           "text": [
             "The usual rule: the note above is the neighboring scale note, and the note below is a half step under. The lower note may be outside the scale.",
-            "The outside note sounds for just a moment and resolves at once, so the landing note comes through clearly."
+            "The outside note sounds for just a moment and resolves at once, so the landing note comes through clearly.",
+            "The example targets {n:D5}, the 5th of {c:G7}: above is the scale neighbor {n:E5}, below is {n:C#5} a half step under, a note outside the key."
           ],
           "example": { "columns": [{ "chord": "G7" }, { "notes": ["E5"] }, { "notes": ["C#5"] }, { "notes": ["D5"] }] }
         },
@@ -1645,7 +1674,8 @@
           "title": "From piano to big band",
           "text": [
             "Pianists George Shearing and Red Garland made this sound popular.",
-            "A big band sax \"soli\", with five players moving in the same shape, is built on the same idea."
+            "A big band sax \"soli\", with five players moving in the same shape, is built on the same idea.",
+            "The example uses the same shape twice: {c:Cmaj7} packed under the melody {n:E5}, then {c:Dm7} under the melody {n:D5}, each doubling the melody at the bottom."
           ],
           "example": { "columns": [{ "notes": ["E4", "G4", "B4", "C5", "E5"], "chord": "Cmaj7" }, { "notes": ["D4", "F4", "A4", "C5", "D5"], "chord": "Dm7" }] }
         }
@@ -1673,7 +1703,8 @@
           "title": "Dominant pedal",
           "text": [
             "Holding the 5th of the key, {n:G3} in {n:C4}, is a dominant pedal.",
-            "Even if {c:Dm7} or {c:Fmaj7} is played above, the bass stays on the root of {c:G7}, so the tension of waiting to resolve to {c:Cmaj7} goes on."
+            "Even if {c:Dm7} or {c:Fmaj7} is played above, the bass stays on the root of {c:G7}, so the tension of waiting to resolve to {c:Cmaj7} goes on.",
+            "In the example the bass holds {n:G3} through {c:Dm7} → {c:G7}, and finally the bass moves to {n:C4} as it resolves to {c:Cmaj7}."
           ],
           "example": { "columns": [{ "notes": ["G3", "D4", "F4", "A4", "C5"], "chord": "Dm7" }, { "notes": ["G3", "B3", "D4", "F4"], "chord": "G7" }, { "notes": ["C4", "E4", "G4", "B4"], "chord": "Cmaj7" }] }
         },
@@ -1681,7 +1712,8 @@
           "title": "In intros and endings",
           "text": [
             "It is often used in intros, endings and climaxes of solos.",
-            "A tonic pedal feels settled; a dominant pedal builds the expectation that something is coming."
+            "A tonic pedal feels settled; a dominant pedal builds the expectation that something is coming.",
+            "The example plays {c:Dm7} → {c:G7} → {c:Cmaj7} without a pedal. Compare it with the previous card to hear the tension a held bass adds."
           ],
           "example": { "chords": ["Dm7", "G7", "Cmaj7"] }
         }
@@ -1709,7 +1741,8 @@
           "title": "Free from the rules of the key",
           "text": [
             "The next chord is decided by how far you move, not by diatonic chords or II–V rules.",
-            "It is a new 1960s sound heard in Herbie Hancock's \"Dolphin Dance\" and Joe Henderson's \"Inner Urge\"."
+            "It is a new 1960s sound heard in Herbie Hancock's \"Dolphin Dance\" and Joe Henderson's \"Inner Urge\".",
+            "The example is {c:Dm7} → {c:Cm7} → {c:Bbm7}: the m7 shape steps down a whole step each time, a motion no two-five rule explains."
           ],
           "example": { "chords": ["Dm7", "Cm7", "Bbm7"] }
         },
@@ -1825,7 +1858,8 @@
           "title": "Confirm the new key with V7",
           "text": [
             "Sounding the new key's V7 after the pivot chord makes the modulation clear.",
-            "It is the smoothest kind of modulation, often used when a standard's bridge moves to another key."
+            "It is the smoothest kind of modulation, often used when a standard's bridge moves to another key.",
+            "In the example, after {c:Fmaj7} (IVmaj7 in {n:C4}), {c:Em7}, found in both keys, is reread as IIm7 of {n:D4}; {c:A7} confirms the key of {n:D4} and leads to {c:Dmaj7}."
           ],
           "example": { "chords": ["Fmaj7", "Em7", "A7", "Dmaj7"] }
         }
@@ -1845,7 +1879,8 @@
           "title": "The shape of the progression",
           "text": [
             "{c:Am7} → {c:D7} → {c:Gmaj7} → {c:Cmaj7} → {c:F#m7b5} → {c:B7} → {c:Em6}.",
-            "The same shape as the opening of the standard \"Autumn Leaves\". A II–V–I in {n:G4} is followed by a II–V–I in {n:E4} minor."
+            "The same shape as the opening of the standard \"Autumn Leaves\". A II–V–I in {n:G4} is followed by a II–V–I in {n:E4} minor.",
+            "The example plays the first four ({c:Am7} → {c:D7} → {c:Gmaj7} → {c:Cmaj7})."
           ],
           "example": { "chords": ["Am7", "D7", "Gmaj7", "Cmaj7"] }
         },
@@ -1869,7 +1904,8 @@
           "title": "Scales and guide tones",
           "text": [
             "On the major side, {c:Am7} takes Dorian and {c:Cmaj7} takes Lydian. On the minor side, {c:B7} takes Phrygian Dominant and {c:Em6} takes melodic minor.",
-            "Play a line where each 7th falls a half or whole step to the next chord's 3rd, and the moment the chord changes comes through clearly."
+            "Play a line where each 7th falls a half or whole step to the next chord's 3rd, and the moment the chord changes comes through clearly.",
+            "The example is the minor side, {c:F#m7b5} → {c:B7} → {c:Em6}."
           ],
           "example": { "chords": ["F#m7b5", "B7", "Em6"] }
         }
@@ -1937,7 +1973,8 @@
         {
           "title": "The 12-bar form",
           "text": [
-            "{c:Cm7} for 4 bars, {c:Fm7} for 2 bars, {c:Cm7} for 2 bars. The last 4 bars are {c:Ab7} → {c:G7} → {c:Cm7} → {c:G7}."
+            "{c:Cm7} for 4 bars, {c:Fm7} for 2 bars, {c:Cm7} for 2 bars. The last 4 bars are {c:Ab7} → {c:G7} → {c:Cm7} → {c:G7}.",
+            "The example lists each chord once, in the order they appear: {c:Cm7}, {c:Fm7}, {c:Ab7}, {c:G7}."
           ],
           "example": { "chords": ["Cm7", "Fm7", "Ab7", "G7"] }
         },
